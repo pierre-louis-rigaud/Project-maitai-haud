@@ -12,13 +12,14 @@
 }
 
 header {
-    background-color: hsl(336, 8%, 12%);
+    background-color: hsl(337, 30%, 92%);
     font-size: larger;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-left: 10%;
     padding-right: 10%;
+    border-radius: 15px;
 }
 
 body {
@@ -41,7 +42,7 @@ body {
 .dashboard-header {
     text-align: center;
     margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.83);
+    color: rgba(50, 48, 48, 0.83);
 }
 
 .metrics-grid {
@@ -92,10 +93,10 @@ body {
 footer {
     display: block;
     clear: both;
-    background-color: hsl(0, 8%, 12%);
-    color: hsl(0, 8%, 12%);
-    text-align: center;
-    padding: 20px;
+    background-color: hsl(332, 9%, 68%);
+    align-items: center;
+    justify-content: space-between;
+    padding: 10%;
 }
 
 #temperature {
