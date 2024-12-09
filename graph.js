@@ -4,12 +4,12 @@ function generateRandomData(size, max) {
   }
   
   // Données de base
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']; // Labels communs
+  const labels = ['0s', '5s', '10s', '15s', '20s', '25s', '30s', '35s', '40s', '45s', '50s']; // Labels communs
   const dataSets = [
     {
       element: 'chart1',
       label: 'Température (°C)',
-      data: generateRandomData(6, 40), // Valeurs pour température
+      data: generateRandomData(11, 40), // Valeurs pour température
       borderColor: 'rgba(255, 0, 136, 1)',
       backgroundColor: 'rgba(255, 0, 136, 0.2)',
       unit: '°C' // Unité spécifique
@@ -17,7 +17,7 @@ function generateRandomData(size, max) {
     {
       element: 'chart2',
       label: 'Humidité (%)',
-      data: generateRandomData(6, 100), // Valeurs pour vitesse du vent
+      data: generateRandomData(11, 100), // Valeurs pour vitesse du vent
       borderColor: 'rgba(17, 255, 4, 1)',
       backgroundColor: 'rgba(17, 255, 4, 0.2)',
       unit: '%' // Unité spécifique
@@ -25,7 +25,7 @@ function generateRandomData(size, max) {
     {
       element: 'chart3',
       label: 'Pression (hPa)',
-      data: generateRandomData(6, 200), // Valeurs pour précipitations
+      data: generateRandomData(11, 200), // Valeurs pour précipitations
       borderColor: 'rgba(181, 9, 255, 1)',
       backgroundColor: 'rgba(181, 9, 255, 0.2)',
       unit: 'hPa' // Unité spécifique
@@ -76,7 +76,7 @@ function generateRandomData(size, max) {
   // Simuler une mise à jour des données toutes les 5 secondes
   setInterval(() => {
     dataSets.forEach(set => {
-      set.data = generateRandomData(6, 100); // Générer de nouvelles données
+      set.data = generateRandomData(11, 100); // Générer de nouvelles données
       const chart = Chart.getChart(set.element); // Récupérer le graphique
       chart.data.datasets[0].data = set.data; // Mettre à jour les données
       chart.update(); // Redessiner
