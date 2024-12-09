@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Météo Moderne</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="dashboard-header">
+            <h1>Station Météo</h1>
+            <p>Analyse en temps réel de l'environnement</p>
+        </header>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Température</div>
+                <div id="temperature" class="metric-value">-- °C</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Humidité</div>
+                <div id="humidite" class="metric-value">-- %</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Pression</div>
+                <div id="pression" class="metric-value">-- hPa</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="meteoChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('fetch_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+
+                    document.getElementById('humidite').innerText = `${data.humidite} %`;
+                    document.getElementById('temperature').innerText = `${data.temperature} °C`;
+                    document.getElementById('pression').innerText = `${data.pression} hPa`;
+
+                    const ctx = document.getElementById('meteoChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.datemesure,
+                            datasets: [
+                                {
+                                    label: 'Température (°C)',
+                                    data: data.temperature_series,
+                                    borderColor: 'rgba(52, 152, 219, 1)',
+                                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                                    borderWidth: 3,
+                                    fill: true,
+                                },
+                                {
+                                    label: 'Humidité (%)',
+                                    data: data.humidite_series,
+                                    borderColor: 'rgba(46, 204, 113, 1)',
+                                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                                    borderWidth: 3,
+                                    fill: true,
+                                },
+                                {
+                                    label: 'Pression (hPa)',
+                                    data: data.pression_series,
+                                    borderColor: 'rgba(241, 196, 15, 1)',
+                                    backgroundColor: 'rgba(241, 196, 15, 0.2)',
+                                    borderWidth: 3,
+                                    fill: true,
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: false
+                                }
+                            },
+                            plugins: {
+                                legend: { 
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true,
+                                    }
+                                },
+                                tooltip: { enabled: true }
+                            }
+                        }
+                    });
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
