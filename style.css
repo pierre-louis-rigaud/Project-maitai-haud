@@ -1,7 +1,7 @@
 :root {
     --primary-color: #665e63;
     --secondary-color: #2ecc71;
-    --background-color: #f4f6f7;
+    --background-color: whitesmoke;
     --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
@@ -96,20 +96,41 @@ footer {
     background-color: hsl(332, 9%, 68%);
     align-items: center;
     justify-content: space-between;
-    padding: 10%;
+    padding: 5.3%;
 }
 
 #temperature {
     color: rgb(255, 0, 136);
 }
 
-#pression {
-    color: #c500d3;
-}
-
 #humidite {
     color: rgb(17, 255, 4);
 }
+
+#pression {
+    color: rgb(181, 9, 255);
+}
+
+
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 200px;
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+.bar {
+  width: 50px;
+  background-color: steelblue;
+}
+.bar[data-value="10"] { height: 10%; }
+.bar[data-value="30"] { height: 30%; }
+.bar[data-value="70"] { height: 70%; }
+.bar[data-value="100"] { height: 100%; }
+
 
 @media (max-width: 768px) {
     main {

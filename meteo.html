@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="10"> 
     <title>Station Météo Moderne</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -102,8 +103,18 @@
                 .catch(err => console.error(err));
         });
     </script>
+
+<body>
+  <div style="width: 70%; margin: auto;">
+    <canvas id="chart1"></canvas>
+    <canvas id="chart2"></canvas>
+    <canvas id="chart3"></canvas>
+  </div>
+  
+    <script src="graph.js"></script>
+</body>
     <footer>
-        
+
     </footer>
 </body>
 </html>
