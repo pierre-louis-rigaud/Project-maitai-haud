@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #f464b3;
+    --primary-color: #665e63;
     --secondary-color: #2ecc71;
     --background-color: #f4f6f7;
     --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
@@ -11,9 +11,19 @@
     box-sizing: border-box;
 }
 
+header {
+    background-color: hsl(336, 8%, 12%);
+    font-size: larger;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: url(./image/fleur_hiver.png);
+    /* background: url(./image/fleur_hiver.png); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -31,7 +41,7 @@ body {
 .dashboard-header {
     text-align: center;
     margin-bottom: 2rem;
-    color: rgba(205, 87, 132, 0.83);
+    color: rgba(255, 255, 255, 0.83);
 }
 
 .metrics-grid {
@@ -41,7 +51,7 @@ body {
 }
 
 .metric-card {
-    background: rgb(255, 234, 246);
+    background: rgb(236, 231, 234);
     border-radius: 10px;
     padding: 1.5rem;
     text-align: center;
@@ -72,14 +82,38 @@ body {
 }
 
 .chart-container {
-    background: rgb(255, 234, 246);
+    background: rgb(239, 233, 236);
     border-radius: 15px;
     padding: 1.5rem;
     margin-top: 2rem;
     box-shadow: var(--card-shadow);
 }
 
+footer {
+    display: block;
+    clear: both;
+    background-color: hsl(0, 8%, 12%);
+    color: hsl(0, 8%, 12%);
+    text-align: center;
+    padding: 20px;
+}
+
+#temperature {
+    color: rgb(255, 0, 136);
+}
+
+#pression {
+    color: #c500d3;
+}
+
+#humidite {
+    color: rgb(17, 255, 4);
+}
+
 @media (max-width: 768px) {
+    main {
+        width: 100%;
+    }
     .dashboard {
         padding: 1rem;
     }
