@@ -1,51 +1,68 @@
-// Fonction pour générer des données aléatoires
-function generateRandomData(size, max) {
-    return Array.from({ length: size }, () => Math.floor(Math.random() * max));
+// URL de l'API
+const API_URL = 'https://api.example.com/weather';
+
+// Fonction pour récupérer les données depuis l'API
+async function fetchData() {
+  try {
+    const response = await fetch(API_URL); // Requête HTTP GET
+    const data = await response.json(); // Conversion en JSON
+    return data; // Retourner les données récupérées
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données :', error);
   }
-  
-  // Données de base
-  const labels = ['0s', '5s', '10s', '15s', '20s', '25s', '30s', '35s', '40s', '45s', '50s']; // Labels communs
-  const dataSets = [
+}
+
+// Initialisation des graphiques
+async function initCharts() {
+  const data = await fetchData(); // Récupérer les données depuis l'API
+
+  if (!data) {
+    console.error('Pas de données disponibles.');
+    return;
+  }
+
+  // Création des graphiques
+  const charts = [
     {
       element: 'chart1',
       label: 'Température (°C)',
-      data: generateRandomData(11, 40), // Valeurs pour température
-      borderColor: 'rgba(255, 0, 136, 1)',
-      backgroundColor: 'rgba(255, 0, 136, 0.2)',
-      unit: '°C' // Unité spécifique
+      data: data.temperature, // Température
+      borderColor: 'rgba(255, 99, 132, 1)',
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      unit: '°C'
     },
     {
       element: 'chart2',
-      label: 'Humidité (%)',
-      data: generateRandomData(11, 100), // Valeurs pour vitesse du vent
-      borderColor: 'rgba(17, 255, 4, 1)',
-      backgroundColor: 'rgba(17, 255, 4, 0.2)',
-      unit: '%' // Unité spécifique
+      label: 'Vitesse du Vent (km/h)',
+      data: data.wind_speed, // Vitesse du vent
+      borderColor: 'rgba(54, 162, 235, 1)',
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      unit: 'km/h'
     },
     {
       element: 'chart3',
-      label: 'Pression (hPa)',
-      data: generateRandomData(11, 200), // Valeurs pour précipitations
-      borderColor: 'rgba(181, 9, 255, 1)',
-      backgroundColor: 'rgba(181, 9, 255, 0.2)',
-      unit: 'hPa' // Unité spécifique
+      label: 'Précipitations (mm)',
+      data: data.precipitation, // Précipitations
+      borderColor: 'rgba(75, 192, 192, 1)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      unit: 'mm'
     }
   ];
-  
-  // Création de graphiques pour chaque dataset
-  dataSets.forEach(set => {
+
+  // Création des graphiques avec Chart.js
+  charts.forEach(set => {
     const ctx = document.getElementById(set.element).getContext('2d');
     new Chart(ctx, {
-      type: 'line', // Type courbe
+      type: 'line',
       data: {
-        labels: labels, // Labels (mois ici)
+        labels: data.labels, // Labels provenant de l'API
         datasets: [{
-          label: set.label, // Légende avec unité
-          data: set.data, // Données
-          borderColor: set.borderColor, // Couleur de la ligne
-          backgroundColor: set.backgroundColor, // Couleur de fond
+          label: set.label,
+          data: set.data, // Données spécifiques
+          borderColor: set.borderColor,
+          backgroundColor: set.backgroundColor,
           borderWidth: 2,
-          fill: true // Remplissage sous la courbe
+          fill: true
         }]
       },
       options: {
@@ -54,8 +71,7 @@ function generateRandomData(size, max) {
           tooltip: {
             callbacks: {
               label: function (context) {
-                // Ajout de l'unité dans l'infobulle
-                return `${context.raw} ${set.unit}`;
+                return `${context.raw} ${set.unit}`; // Ajouter l'unité dans les infobulles
               }
             }
           }
@@ -65,21 +81,40 @@ function generateRandomData(size, max) {
             beginAtZero: true,
             title: {
               display: true,
-              text: set.unit // Ajout de l'unité à l'axe Y
+              text: set.unit // Unité sur l'axe Y
             }
           }
         }
       }
     });
   });
-  
-  // Simuler une mise à jour des données toutes les 5 secondes
-  setInterval(() => {
-    dataSets.forEach(set => {
-      set.data = generateRandomData(11, 100); // Générer de nouvelles données
-      const chart = Chart.getChart(set.element); // Récupérer le graphique
-      chart.data.datasets[0].data = set.data; // Mettre à jour les données
+}
+
+// Mettre à jour les données périodiquement
+async function updateCharts() {
+  const data = await fetchData(); // Récupérer de nouvelles données
+  if (!data) {
+    console.error('Pas de nouvelles données disponibles.');
+    return;
+  }
+
+  // Mettre à jour chaque graphique
+  ['chart1', 'chart2', 'chart3'].forEach((chartId, index) => {
+    const chart = Chart.getChart(chartId); // Récupérer le graphique existant
+    if (chart) {
+      chart.data.labels = data.labels; // Mettre à jour les labels
+      chart.data.datasets[0].data = [
+        data.temperature,
+        data.wind_speed,
+        data.precipitation
+      ][index]; // Mettre à jour les données en fonction du graphique
       chart.update(); // Redessiner
-    });
-  }, 10000);
-  
+    }
+  });
+}
+
+// Initialiser les graphiques au chargement de la page
+initCharts();
+
+// Mettre à jour les graphiques toutes les 5 minutes
+setInterval(updateCharts, 5 * 60 * 1000);
