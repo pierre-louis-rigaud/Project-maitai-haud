@@ -81,5 +81,5 @@ function generateRandomData(size, max) {
       chart.data.datasets[0].data = set.data; // Mettre à jour les données
       chart.update(); // Redessiner
     });
-  }, 5000);
+  }, 10000);
   
